@@ -1,15 +1,27 @@
-import fastify from "fastify"
-import dotenv from 'dotenv';
+import fastify from "fastify";
+import dotenv from "dotenv";
+import routes from "./routes";
 
 dotenv.config();
 
-const routes = function (fastify, opts, next) {
-  fastify.get('/', (req, reply) => {
-    reply.send({ hello: 'world' })
-  })
-
-  next()
-}
+// const routes = [
+//   {
+//     method: "GET",
+//     url: "/test",
+//     // this function is executed for every request before the handler is executed
+//     preHandler: async (request, reply) => {
+//       // E.g. check authentication
+//     },
+//     handler: async (request, reply) => {
+//       // try {
+//       const data = await User.findAll();
+//       return data;
+//       // } catch (err) {
+//       //   return `---> Error: ${err.message}`;
+//       // }
+//     },
+//   },
+// ];
 
 export default class App {
   constructor() {
@@ -18,9 +30,11 @@ export default class App {
 
   async start() {
     try {
-      await this.server.listen(process.env.PORT || 3002)
-      this.server.log.info(`🏃--------> server listening on ${process.env.PORT || 3002}`)
-    } catch(err) {
+      await this.server.listen(process.env.PORT || 3002, "0.0.0.0");
+      this.server.log.info(
+        `🏃--------> server listening on ${process.env.PORT || 3002}`
+      );
+    } catch (err) {
       this.server.log.error(err);
       process.exit(1);
     }
@@ -28,8 +42,10 @@ export default class App {
 
   async register() {
     try {
-      await this.server.register(routes);
-    } catch(err) {
+      routes.forEach((route, index) => {
+        this.server.route(route);
+      });
+    } catch (err) {
       this.server.log.error(err);
       process.exit(1);
     }
