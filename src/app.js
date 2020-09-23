@@ -4,25 +4,6 @@ import routes from "./routes";
 
 dotenv.config();
 
-// const routes = [
-//   {
-//     method: "GET",
-//     url: "/test",
-//     // this function is executed for every request before the handler is executed
-//     preHandler: async (request, reply) => {
-//       // E.g. check authentication
-//     },
-//     handler: async (request, reply) => {
-//       // try {
-//       const data = await User.findAll();
-//       return data;
-//       // } catch (err) {
-//       //   return `---> Error: ${err.message}`;
-//       // }
-//     },
-//   },
-// ];
-
 export default class App {
   constructor() {
     this.server = fastify({ logger: true });

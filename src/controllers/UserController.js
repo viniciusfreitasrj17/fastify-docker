@@ -8,7 +8,7 @@ const UserController = {
   // Get all users
   index: async (req, reply) => {
     try {
-      const users = await User.find();
+      const users = await User.findAll();
       return users;
     } catch (err) {
       return `--> Error: ${err.message}`;
